@@ -1,10 +1,19 @@
-CREATE OR ALTER PROCEDURE GetTransactionSearch
-	@Barang VARCHAR(200)
-	,@StartDate VARCHAR(200)
-	,@EndDate VARCHAR(200)
+CREATE OR ALTER PROCEDURE GetTransactionSummaryWithFilters
+    @Barang VARCHAR(50),       
+    @StartDate DATE,           
+    @EndDate DATE              
 AS
 BEGIN
-    -- Select from Purchase and PurchaseDetail tables
+    CREATE TABLE #TransactionSummary (
+        Tanggal DATE,
+        [No. Trx] VARCHAR(50),
+        Keterangan VARCHAR(100),
+        [Masuk (Qty)] INT,
+        [Keluar (Qty)] INT,
+        [Saldo (Qty)] DECIMAL(18, 2)
+    );
+
+    INSERT INTO #TransactionSummary (Tanggal, [No. Trx], Keterangan, [Masuk (Qty)], [Keluar (Qty)], [Saldo (Qty)])
     SELECT 
         a.Date AS [Tanggal],
         a.No AS [No. Trx],
@@ -20,14 +29,13 @@ BEGIN
         Supplier c ON a.SupplierID = c.SupplierID
     JOIN 
         Product d ON b.ProductID = d.ProductID
-	WHERE 
-		d.Name = @Barang
-	AND
-		a.Date BETWEEN @StartDate AND @EndDate
+    WHERE 
+        d.Name = @Barang
+    AND
+        a.Date BETWEEN @StartDate AND @EndDate
 
     UNION ALL
 
-    -- Select from Sales and SalesDetail tables
     SELECT 
         a.Date AS [Tanggal],
         a.No AS [No. Trx],
@@ -43,8 +51,12 @@ BEGIN
         Customer c ON a.CustomerID = c.CustomerID
     JOIN 
         Product d ON b.ProductID = d.ProductID
-	WHERE 
-		d.Name = @Barang
-	AND
-		a.Date BETWEEN @StartDate AND @EndDate
+    WHERE 
+        d.Name = @Barang
+    AND
+        a.Date BETWEEN @StartDate AND @EndDate;
+
+    SELECT * FROM #TransactionSummary ORDER BY Tanggal, [No. Trx] DESC;
+
+    DROP TABLE #TransactionSummary;
 END;

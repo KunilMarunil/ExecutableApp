@@ -29,10 +29,13 @@ namespace TransExeApp
 
             // TextBoxes
             dtpTanggalAwal = new DateTimePicker { Location = new Point(120, 20), Format = DateTimePickerFormat.Short, MaxDate = DateTime.Today };
+            dtpTanggalAwal.ValueChanged += DateOrProductChanged;
             dtpTanggalAkhir = new DateTimePicker { Location = new Point(120, 60), Format = DateTimePickerFormat.Short , MaxDate = DateTime.Today };
-            
+            dtpTanggalAkhir.ValueChanged += DateOrProductChanged;
+
             // ComboBox for Barang selection
             cmbBarang = new ComboBox { Location = new Point(120, 100), Width = 150, DropDownStyle = ComboBoxStyle.DropDownList };
+            cmbBarang.SelectedIndexChanged += DateOrProductChanged;
 
             // Search Button
             Button btnCari = new Button { Text = "Cari", Location = new Point(500, 100), Width = 100};
@@ -70,36 +73,6 @@ namespace TransExeApp
             this.Text = "Inventory Report";
             this.ClientSize = new Size(650, 500);
         }
-        private void InitialForm()
-        {
-            string connectionString = "Server=(localdb)\\Locallydumb;Database=WebAppThree;User Id=;Password=;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    string query = "EXEC GetTransactionSummary";
-                    SqlCommand command = new SqlCommand(query, connection);
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(command);
-                    DataTable dataTable = new DataTable();
-
-                    // Clear the DataGridView before adding new data
-                    dataGridView.DataSource = null;
-                    dataGridView.Rows.Clear();
-                    dataGridView.Columns.Clear();
-
-                    adapter.Fill(dataTable);
-
-                    // Bind the data to the DataGridView
-                    dataGridView.DataSource = dataTable;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message);
-                }
-            }
-        }
         private void SearchThat(object sender, EventArgs e)
         {
             string connectionString = "Server=(localdb)\\Locallydumb;Database=WebAppThree;User Id=;Password=;";
@@ -117,15 +90,16 @@ namespace TransExeApp
                     SqlDataAdapter adapter = new SqlDataAdapter(command);
                     DataTable dataTable = new DataTable();
 
-                    // Clear the DataGridView before adding new data
                     dataGridView.DataSource = null;
                     dataGridView.Rows.Clear();
                     dataGridView.Columns.Clear();
 
                     adapter.Fill(dataTable);
 
-                    // Bind the data to the DataGridView
                     dataGridView.DataSource = dataTable;
+                    dataGridView.AutoGenerateColumns = true;
+                    dataGridView.AllowUserToOrderColumns = true;
+
                 }
                 catch (Exception ex)
                 {
@@ -146,7 +120,6 @@ namespace TransExeApp
                     SqlCommand command = new SqlCommand(query, connection);
                     SqlDataReader reader = command.ExecuteReader();
 
-                    // Load data into ComboBox
                     while (reader.Read())
                     {
                         cmbBarang.Items.Add(reader["Name"].ToString());
@@ -158,6 +131,13 @@ namespace TransExeApp
                     MessageBox.Show("Error loading Barang data: " + ex.Message);
                 }
             }
+        }
+
+        private void DateOrProductChanged(object sender, EventArgs e)
+        {
+            dataGridView.DataSource = null;
+            dataGridView.Rows.Clear();
+            dataGridView.Columns.Clear();
         }
     }
 }
