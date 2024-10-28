@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransExeApp", "TransExeApp.csproj", "{96CBC5B6-D76C-438E-B82B-AB552A0BD61B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{96CBC5B6-D76C-438E-B82B-AB552A0BD61B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96CBC5B6-D76C-438E-B82B-AB552A0BD61B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96CBC5B6-D76C-438E-B82B-AB552A0BD61B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96CBC5B6-D76C-438E-B82B-AB552A0BD61B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {63CFAF70-8D67-4BDC-A185-2493EB697E25}
+	EndGlobalSection
+EndGlobal
