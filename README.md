@@ -19,9 +19,3 @@ This application is an **Inventory Reporting System** built using **Windows Form
 3. Configure the database connection string in the code to match your SQL Server setup.
 4. Build and run the application.
 
-## Screenshots
-Add screenshots of your application here to illustrate the features and user interface.
-
-## License
-Specify the license information if you have one.
-
